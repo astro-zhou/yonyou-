@@ -4,14 +4,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yonyou.iuap.corp.demo.crypto.JWTHelper;
 import com.yonyou.iuap.corp.demo.crypto.SignHelper;
-import com.yonyou.iuap.corp.demo.model.AccessTokenResponse;
-import com.yonyou.iuap.corp.demo.model.GenericResponse;
-import com.yonyou.iuap.corp.demo.model.RefreshTokenResponse;
-import com.yonyou.iuap.corp.demo.model.UserTokenResponse;
+import com.yonyou.iuap.corp.demo.model.*;
+import com.yonyou.iuap.corp.demo.utils.DcService;
 import com.yonyou.iuap.corp.demo.utils.RequestTool;
 import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +38,9 @@ public class AppController {
     @Value("${open-api.url}")
     private String openApiUrl;
 
+    @Autowired
+    private DcService dcService;
+
     private static final ObjectMapper mapper = new ObjectMapper();
 
     /**
@@ -60,6 +62,43 @@ public class AppController {
 
         // 请求
         String requestUrl = openApiUrl + "/open-auth/selfAppAuth/getAccessToken";
+        GenericResponse<AccessTokenResponse> response = RequestTool.doGet(requestUrl, params, new TypeReference<GenericResponse<AccessTokenResponse>>() {});
+
+        if (response.isSuccess()) {
+            return response.getData();
+        }
+
+        LOGGER.error("请求开放平台接口失败，code: {}, message: {}", response.getCode(), response.getMessage());
+        throw new RuntimeException("请求开放平台接口失败, code: " + response.getCode() + ", message: " + response.getMessage());
+    }
+
+    /**
+     * 通过appkey获取accessToken
+     * @return
+     * @throws IOException
+     * @throws InvalidKeyException
+     * @throws NoSuchAlgorithmException
+     */
+    @GetMapping("/getAccessTokenV2")
+    public AccessTokenResponse getAccessTokenV2(@RequestParam("tenantId") String tenantId) throws IOException, InvalidKeyException, NoSuchAlgorithmException {
+        String tokenUrl;
+        try {
+            DcUrlResult dcUrl = dcService.getGateway(tenantId);
+            tokenUrl = dcUrl.getTokenUrl();
+        } catch (Exception e) {
+            LOGGER.error("获取多数据中心获取token地址出现异常", e);
+            throw new RuntimeException("获取多数据中心获取token地址出现异常", e);
+        }
+        Map<String, String> params = new HashMap<>();
+        // 除签名外的其他参数
+        params.put("appKey", appKey);
+        params.put("timestamp", String.valueOf(System.currentTimeMillis()));
+        // 计算签名
+        String signature = SignHelper.sign(params, appSecret);
+        params.put("signature", signature);
+
+        // 请求
+        String requestUrl = tokenUrl + "/open-auth/selfAppAuth/getAccessToken";
         GenericResponse<AccessTokenResponse> response = RequestTool.doGet(requestUrl, params, new TypeReference<GenericResponse<AccessTokenResponse>>() {});
 
         if (response.isSuccess()) {
