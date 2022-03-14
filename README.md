@@ -2,9 +2,11 @@
 
 ## 获取 `access_token`
 
+下面出现的${tokenUrl}，在进行多数据中心适配之前是https://api.diwork.com，适配之后需要通过租户来获取（https://api.diwork.com/open-auth/dataCenter/getGatewayAddress?tenantId=bvzfc6d2）
+
 调用接口令牌 `access_token` 是自建应用调用开放平台业务接口的凭证，有效期为2小时。
 
-**接口地址:** `https://open.yonyoucloud.com/open-auth/selfAppAuth/getAccessToken`
+**接口地址:** `${tokenUrl}/open-auth/selfAppAuth/getAccessToken`
 
 **请求方式:** `GET`
 
@@ -29,7 +31,7 @@ URLEncode( Base64( HmacSHA256( parameterMap ) ) )
 **示例请求:**
 
 ```
-GET https://open.yonyoucloud.com/open-auth/selfAppAuth/getAccessToken?appKey=fbb5f5b6-21fb-4156-8b73-3ec3ac389ab7&timestamp=1547192727928&signature=7OzDhux%2FyJQt%2B9K2GK4E8YuX%2Fl30NYcnsbEO8D%2F0jCc%3D
+GET ${tokenUrl}/open-auth/selfAppAuth/getAccessToken?appKey=fbb5f5b6-21fb-4156-8b73-3ec3ac389ab7&timestamp=1547192727928&signature=7OzDhux%2FyJQt%2B9K2GK4E8YuX%2Fl30NYcnsbEO8D%2F0jCc%3D
 ```
 
 **返回参数:**

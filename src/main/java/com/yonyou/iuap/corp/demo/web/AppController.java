@@ -38,13 +38,16 @@ public class AppController {
     @Value("${open-api.url}")
     private String openApiUrl;
 
+    @Value("${app.tenantId:tenantId}")
+    private String tenantId;
+
     @Autowired
     private DcService dcService;
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
     /**
-     * 通过appkey获取accessToken
+     * 多数据中心适配之前通过appKey获取accessToken
      * @return
      * @throws IOException
      * @throws InvalidKeyException
@@ -73,14 +76,14 @@ public class AppController {
     }
 
     /**
-     * 通过appkey获取accessToken
+     * 多数据中心适配之后通过tenantId和appKey获取accessToken
      * @return
      * @throws IOException
      * @throws InvalidKeyException
      * @throws NoSuchAlgorithmException
      */
     @GetMapping("/getAccessTokenV2")
-    public AccessTokenResponse getAccessTokenV2(@RequestParam("tenantId") String tenantId) throws IOException, InvalidKeyException, NoSuchAlgorithmException {
+    public AccessTokenResponse getAccessTokenV2() throws IOException, InvalidKeyException, NoSuchAlgorithmException {
         String tokenUrl;
         try {
             DcUrlResult dcUrl = dcService.getGateway(tenantId);
