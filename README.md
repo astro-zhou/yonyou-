@@ -2,7 +2,7 @@
 
 ## 获取 `access_token`
 
-下面出现的${tokenUrl}，在进行多数据中心适配之前是https://api.diwork.com，适配之后需要通过租户来获取（https://api.diwork.com/open-auth/dataCenter/getGatewayAddress?tenantId=bvzfc6d2）
+下面出现的${tokenUrl}，在进行多数据中心适配之前是https://api.diwork.com，适配之后需要通过租户来获取（https://api.diwork.com/open-auth/dataCenter/getGatewayAddress?tenantId=*****）
 
 调用接口令牌 `access_token` 是自建应用调用开放平台业务接口的凭证，有效期为2小时。
 
@@ -31,7 +31,7 @@ URLEncode( Base64( HmacSHA256( parameterMap ) ) )
 **示例请求:**
 
 ```
-GET ${tokenUrl}/open-auth/selfAppAuth/getAccessToken?appKey=fbb5f5b6-21fb-4156-8b73-3ec3ac389ab7&timestamp=1547192727928&signature=7OzDhux%2FyJQt%2B9K2GK4E8YuX%2Fl30NYcnsbEO8D%2F0jCc%3D
+GET ${tokenUrl}/open-auth/selfAppAuth/getAccessToken?appKey=121212121212121&timestamp=1547192727928&signature=7OzDhux%2FyJQt%2B9K2GK4E8YuX%2Fl30NYcnsbEO8D%2F0jCc%3D
 ```
 
 **返回参数:**
@@ -114,9 +114,9 @@ GET ${tokenUrl}/open-auth/selfAppAuth/getAccessToken?appKey=fbb5f5b6-21fb-4156-8
 {
   "type":"STAFF_ADD",
   "timestamp":1529999656469,
-  "tenantId":"abcde859",
+  "tenantId":"****",
   "eventId":"033af2b1-96c0-4cc2-8991-3abe42aa3d0b",
-  "staffId":["abcde859-d853-4f57-896c-6658c5920e25"]
+  "staffId":["staff-12121212"]
 }
 ```
 
