@@ -2,7 +2,7 @@ package com.yonyou.iuap.corp.demo.crypto;
 
 public enum ErrorCode {
 
-    SHA1_SIGN_FAILED(93003, "SHA1 签名生成失败"),
+    SHA256_SIGN_FAILED(93003, "SHA256 签名生成失败"),
     INVALID_AES_SYMMETRIC_KEY(93004, "AES SymmetricKey 非法"),
     INVALID_SUITE_KEY(93005, "suiteKey 校验失败"),
     AES_ENCRYPT_FAILED(93006, "aes 加密失败"),

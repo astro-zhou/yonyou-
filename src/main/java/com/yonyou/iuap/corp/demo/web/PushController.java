@@ -40,7 +40,6 @@ public class PushController {
 
     @PostMapping("/eventPush")
     public String eventCallBackReceiver(@RequestBody EncryptionHolder holder) throws IOException {
-
         // 构建解密验签处理对象
         EventCrypto crypto = PrivateAppCrypto.newCrypto(appKey, appSecret);
         // 验签解密后的消息体

@@ -8,7 +8,7 @@ public class EncryptionHolder {
     /**
      * 消息签名
      */
-    private String msgSignature;
+    private String signature;
 
     /**
      * 消息发送 unix 时间戳
@@ -28,8 +28,8 @@ public class EncryptionHolder {
     public EncryptionHolder() {
     }
 
-    public EncryptionHolder(String msgSignature, long timestamp, String nonce, String encrypt) {
-        this.msgSignature = msgSignature;
+    public EncryptionHolder(String signature, long timestamp, String nonce, String encrypt) {
+        this.signature = signature;
         this.timestamp = timestamp;
         this.nonce = nonce;
         this.encrypt = encrypt;
@@ -40,12 +40,13 @@ public class EncryptionHolder {
         this.nonce = nonce;
     }
 
-    public String getMsgSignature() {
-        return msgSignature;
+
+    public String getSignature() {
+        return signature;
     }
 
-    public void setMsgSignature(String msgSignature) {
-        this.msgSignature = msgSignature;
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 
     public long getTimestamp() {

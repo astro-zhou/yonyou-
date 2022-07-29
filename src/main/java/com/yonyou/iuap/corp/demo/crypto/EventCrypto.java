@@ -210,7 +210,7 @@ public class EventCrypto {
         // 加密
         String encrypt = encrypt(getRandomStr(), msg);
         // 加签
-        String signature = SHA1.getSHA1(token, String.valueOf(timestamp), nonce, encrypt);
+        String signature = SHA256.sign(token, String.valueOf(timestamp), nonce, encrypt);
         return holderToJsonStr(new EncryptionHolder(signature, timestamp, nonce, encrypt));
     }
 
@@ -249,7 +249,7 @@ public class EventCrypto {
      */
     public String decryptMsg(String msgSignature, long timestamp, String nonce, String encrypt) throws CryptoException {
         // 验签
-        String signature = SHA1.getSHA1(token, String.valueOf(timestamp), nonce, encrypt);
+        String signature = SHA256.sign(token, String.valueOf(timestamp), nonce, encrypt);
         if (!signature.equals(msgSignature)) {
             LOGGER.error("签名校验失败！");
             throw new CryptoException(ErrorCode.INVALID_SIGNATURE);
@@ -272,7 +272,7 @@ public class EventCrypto {
      */
     public String decryptMsg(String jsonMsg) throws CryptoException {
         EncryptionHolder holder = jsonToHolder(jsonMsg);
-        return decryptMsg(holder.getMsgSignature(), holder.getTimestamp(), holder.getNonce(), holder.getEncrypt());
+        return decryptMsg(holder.getSignature(), holder.getTimestamp(), holder.getNonce(), holder.getEncrypt());
     }
 
     /**
@@ -288,7 +288,7 @@ public class EventCrypto {
      * @throws CryptoException 执行失败，请查看该异常的错误码和具体的错误信息
      */
     public String decryptMsg(EncryptionHolder holder) throws CryptoException {
-        return decryptMsg(holder.getMsgSignature(), holder.getTimestamp(), holder.getNonce(), holder.getEncrypt());
+        return decryptMsg(holder.getSignature(), holder.getTimestamp(), holder.getNonce(), holder.getEncrypt());
     }
 
     public String holderToJsonStr(EncryptionHolder holder) throws CryptoException {
