@@ -27,6 +27,7 @@ URLEncode( Base64( HmacSHA256( parameterMap ) ) )
 其中，`parameterMap` 按照参数名称排序，参数名称与参数值依次拼接(signature字段除外)，形成待计算签名的字符串。之后对 `parameterMap`
 使用 `HmacSHA256` 计算签名，`Hmac` 的 `key` 为自建应用的 `appSecret` 。计算出的二进制签名先进行 `base64`，之后进行 `urlEncode`，
 即得到 `signatrue` 字段的值。
+* **注意：** 由于不通开发语言在BASE64加密解密中有区别（比如c#的byte边界值为：0~255 ， java的byte边界值为：-128~127）,请注意转换
 
 **示例请求:**
 
@@ -71,7 +72,7 @@ GET ${tokenUrl}/open-auth/selfAppAuth/getAccessToken?appKey=121212121212121&time
 
 |字段|类型|说明|必填|
 |----|----|----|----|
-|msgSignature|string|签名|Y|
+|signature|string|签名|Y|
 |timestamp|number|unix timestamp|Y|
 |nonce|string|随机值|Y|
 |encrypt|string|加密消息体|Y|
@@ -80,7 +81,7 @@ GET ${tokenUrl}/open-auth/selfAppAuth/getAccessToken?appKey=121212121212121&time
 
 ```json
 {
-  "msgSignature": "2ff5a94ca2dd9376c8dcebde690b1b8e94741ec5",
+  "signature": "2ff5a94ca2dd9376c8dcebde690b1b8e94741ec5",
   "timestamp": 1530862251583,
   "nonce": "uM48M4qajlEtVCz4",
   "encrypt": "9Mo8oaTFKJAdK3wnM2gS9RJxt0febE/fFJF1vhKbcPmdljs44OwHlW96qj2hkOcHQ7gneqsyx8VN4HSdbwu5z/ibhZqTjY/RkjfE+lB1LjlPDTQNl1hh+VimCIl4W4m1RRySeRxSbLikvimfswkJ6fkBj97eRRjeS26079lK8oRke5vmMh5NjWY4Rq5iuvHwInfz8qCalcgJTT/2C37wJA=="
@@ -90,9 +91,10 @@ GET ${tokenUrl}/open-auth/selfAppAuth/getAccessToken?appKey=121212121212121&time
 * "encrypt" 字段解密之后即为投递的事件 `json` 消息
 * 解密验签算法与授权流程中数据推送的解密验签算法完全一致
 * 加密方式 `encrypt = Base64 ( AES ( message ))`
-* 签名计算方式 `msgSignature = SHA1( sort (appSecret, timestamp, nonce, encrypt))`，其中 `SHA1` 计算后取 16 进制字符串，全小写。
+* 签名计算方式 `signature = SHA256( sort (appSecret, timestamp, nonce, encrypt))`，其中 `SHA256` 计算后取 16 进制字符串，全小写。
 * 加密加签用到的 `appSecret`、`AES key` 同授权数据
 * **注意：** AES 过程中，由于密钥长度限制，需要替换 `[JRE_HOME]/lib/security/` 下的部分包，详见 `http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html`
+* **注意：** 由于不通开发语言在BASE64加密解密中有区别（比如c#的byte边界值为：0~255 ， java的byte边界值为：-128~127）,请注意转换
 
 
 ### 事件格式
