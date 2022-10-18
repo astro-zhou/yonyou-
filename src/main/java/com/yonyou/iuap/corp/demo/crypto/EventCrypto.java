@@ -1,6 +1,7 @@
 package com.yonyou.iuap.corp.demo.crypto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,9 @@ public class EventCrypto {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventCrypto.class);
 
+    static {
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
     /**
      * 构造函数
      *
