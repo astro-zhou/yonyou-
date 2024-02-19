@@ -2,7 +2,7 @@
 
 ## 获取 `access_token`
 
-下面出现的${tokenUrl}，在进行多数据中心适配之前是https://api.diwork.com，适配之后需要通过租户来获取（https://api.diwork.com/open-auth/dataCenter/getGatewayAddress?tenantId=*****）
+下面出现的${tokenUrl}，在进行多数据中心适配之前是https://api.diwork.com，适配之后需要通过租户来获取（https://apigateway.yonyoucloud.com/open-auth/dataCenter/getGatewayAddress?tenantId=*****）
 
 调用接口令牌 `access_token` 是自建应用调用开放平台业务接口的凭证，有效期为2小时。
 
