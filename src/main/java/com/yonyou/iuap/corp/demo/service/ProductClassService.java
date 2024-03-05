@@ -1,7 +1,6 @@
 package com.yonyou.iuap.corp.demo.service;
 
 import com.yonyou.iuap.corp.demo.domain.ProductClass;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -16,4 +15,7 @@ import java.security.NoSuchAlgorithmException;
 public interface ProductClassService {
 
     ProductClass insertProductClass(ProductClass productClass) throws IOException, NoSuchAlgorithmException, InvalidKeyException;
+    String deleteProductClass(String productClass) throws IOException, NoSuchAlgorithmException, InvalidKeyException;
+    ProductClass selectProductClass(ProductClass productClass);
+
 }

@@ -8,9 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -38,10 +36,20 @@ public class ProductClassController {
     private ProductClassService productClassService;
 
     @PostMapping("/insert")
-    public ProductClass insertProductClass(ProductClass productClass) throws IOException, NoSuchAlgorithmException, InvalidKeyException {
+    public ProductClass insertProductClass(@RequestBody ProductClass productClass) throws IOException, NoSuchAlgorithmException, InvalidKeyException {
 
         ProductClass productClass1 = productClassService.insertProductClass(productClass);
 
         return productClass1;
     }
+
+    @PostMapping("/delete")
+    public String deleteProductClass(@RequestBody String params) throws IOException, NoSuchAlgorithmException, InvalidKeyException {
+
+        String productClass1 = productClassService.deleteProductClass(params);
+
+        return productClass1;
+
+    }
+
 }
