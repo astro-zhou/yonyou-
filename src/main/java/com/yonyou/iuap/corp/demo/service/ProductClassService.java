@@ -16,6 +16,5 @@ public interface ProductClassService {
 
     ProductClass insertProductClass(ProductClass productClass) throws IOException, NoSuchAlgorithmException, InvalidKeyException;
     String deleteProductClass(String productClass) throws IOException, NoSuchAlgorithmException, InvalidKeyException;
-    ProductClass selectProductClass(ProductClass productClass);
-
+    String selectProductClassTree(ProductClass productClass) throws IOException, NoSuchAlgorithmException, InvalidKeyException;
 }

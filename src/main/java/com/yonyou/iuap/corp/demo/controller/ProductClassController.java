@@ -35,6 +35,7 @@ public class ProductClassController {
     @Resource
     private ProductClassService productClassService;
 
+    // 新增物料分类
     @PostMapping("/insert")
     public ProductClass insertProductClass(@RequestBody ProductClass productClass) throws IOException, NoSuchAlgorithmException, InvalidKeyException {
 
@@ -43,6 +44,7 @@ public class ProductClassController {
         return productClass1;
     }
 
+    // 删除物料分类
     @PostMapping("/delete")
     public String deleteProductClass(@RequestBody String params) throws IOException, NoSuchAlgorithmException, InvalidKeyException {
 
@@ -51,5 +53,17 @@ public class ProductClassController {
         return productClass1;
 
     }
+
+    // 查询物料分类树
+    @PostMapping("/newtree")
+    public String selectProductClassTree(@RequestBody ProductClass productClass) throws IOException, NoSuchAlgorithmException, InvalidKeyException {
+
+        String productClass1 = productClassService.selectProductClassTree(productClass);
+
+        return productClass1;
+    }
+
+
+
 
 }
